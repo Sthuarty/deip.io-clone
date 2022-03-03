@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Deip.io Clone/Scenes/SplashScreen.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Deip.io Clone/Scenes/Menu.unity
+    guid: 023ec0f7a18a315499dc3673cec9f111
+  - enabled: 1
+    path: Assets/Deip.io Clone/Scenes/Game.unity
+    guid: 0a22898cc5215a9408cd3f8800d18348
   m_configObjects: {}
