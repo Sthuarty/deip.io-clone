@@ -1,17 +1,17 @@
-using System;
 using UnityEngine;
 
 public class SceneManagerSplashScreen : MonoBehaviour {
-    [SerializeField] private ConnectToServer m_ConnectToServer;
+    [SerializeField] private PhotonManager m_PhotonManager;
 
-    private void OnEnable() => m_ConnectToServer.OnJoinedLobbyEvent += HasJoinedLobby;
-    private void OnDisable() => m_ConnectToServer.OnJoinedLobbyEvent -= HasJoinedLobby;
+
+    private void OnEnable() => m_PhotonManager.OnInitializeEvent += HasPhotonInitialized;
+    private void OnDisable() => m_PhotonManager.OnInitializeEvent -= HasPhotonInitialized;
 
     private void Start() {
-        m_ConnectToServer.Initialize();
+        m_PhotonManager.Initialize();
     }
 
-    private void HasJoinedLobby() {
-        SceneLoader.Instance.LoadSceneWithFadeEffect("Menu");
+    private void HasPhotonInitialized() {
+        SceneLoader.Instance.LoadSceneWithFadeEffect("Menu", true);
     }
 }
