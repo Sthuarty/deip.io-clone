@@ -13,6 +13,9 @@ public class Character : MonoBehaviour {
     private CharacterLook m_Look;
     private CharacterAttack m_Attack;
     [SerializeField] private int m_Life = 100;
+    [SerializeField] private int m_Score = 0;
+
+    public GunScriptableObject CurrentGun => m_Attack.currentGun;
 
 
     private void Awake() {
@@ -34,6 +37,14 @@ public class Character : MonoBehaviour {
 
     private void TakeDamage(int value) {
         m_Life -= value;
+    }
+
+    public void IncreaseScore(int value) {
+        m_Score += value;
+    }
+
+    public void IncreaseAmmo(int value) {
+        m_Attack.ammoCount += value;
     }
 
     private void OnParticleCollision(GameObject other) {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3273271767032373442}
   - component: {fileID: 6856038163461198423}
   - component: {fileID: 5543023650821434387}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Bullets Particle
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -3787,7 +3787,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.9
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3842,7 +3842,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 192
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -5002,6 +5002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6863900301007369461}
   - component: {fileID: 6863900301007369462}
+  - component: {fileID: 8860039583905280137}
   - component: {fileID: 6863900301007369464}
   - component: {fileID: 6863900301007369460}
   - component: {fileID: 5459726473879609706}
@@ -5010,7 +5011,6 @@ GameObject:
   - component: {fileID: 6863900301007369463}
   - component: {fileID: 4449516608578907211}
   - component: {fileID: 507188829360666484}
-  - component: {fileID: 8860039583905280137}
   m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
@@ -5054,6 +5054,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &8860039583905280137
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6863900301007369459}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!114 &6863900301007369464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5241,6 +5257,7 @@ MonoBehaviour:
   isDead: 0
   photonView: {fileID: 0}
   m_Life: 100
+  m_Score: 0
 --- !u!114 &6863900301007369463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5279,24 +5296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df28bca7aa2a8a245821b2abe6959b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoCount: 10
+  currentGun: {fileID: 11400000, guid: a2b9b5100b54d174e961394892b33e08, type: 2}
   m_AttackCullDown: 0.5
-  m_ParticleSystem: {fileID: 0}
---- !u!58 &8860039583905280137
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6863900301007369459}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &8100573786138885813
 GameObject:
   m_ObjectHideFlags: 0
