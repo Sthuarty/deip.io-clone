@@ -3,21 +3,18 @@ using UnityEngine.InputSystem;
 
 public class CharacterLook : MonoBehaviour {
     private Camera m_Camera;
-    private Vector2 m_Input;
+    private Vector2 targetPosition = Vector2.zero;
 
 
-    private void Start() => m_Camera = Camera.main;
+    private void Awake() => m_Camera = Camera.main;
 
-    private void Update() {
-        Vector2 inputWorldPosition = m_Camera.ScreenToWorldPoint(m_Input);
-        LookAt(inputWorldPosition);
-    }
+    private void Update() => LookAt(targetPosition);
 
-    private void LookAt(Vector2 inputWorldPosition) {
-        Vector2 direction = transform.InverseTransformPoint(inputWorldPosition);
+    private void LookAt(Vector2 position) {
+        Vector2 direction = transform.InverseTransformPoint(position);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.Rotate(0, 0, angle);
     }
 
-    public void LookInputEvent(InputAction.CallbackContext context) => m_Input = context.ReadValue<Vector2>();
+    public void LookInputEvent(InputAction.CallbackContext context) { targetPosition = m_Camera.ScreenToWorldPoint(context.ReadValue<Vector2>()); }
 }
