@@ -5,6 +5,7 @@ using Photon.Realtime;
 public class PhotonManager : MonoBehaviourPunCallbacks {
     public event Event OnInitializeEvent;
     public event Event OnJoinRoomEvent;
+    public event Event OnQuitEvent;
 
     private string gameVersion = "1";
 
@@ -14,8 +15,19 @@ public class PhotonManager : MonoBehaviourPunCallbacks {
     }
 
     public void Initialize() {
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.GameVersion = gameVersion;
+        if (!PhotonNetwork.IsConnected) {
+            PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.GameVersion = gameVersion;
+        } else
+            PhotonNetwork.JoinLobby();
+    }
+
+    public void Quit() {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom() {
+        OnQuitEvent?.Invoke();
     }
 
     public override void OnConnectedToMaster() {

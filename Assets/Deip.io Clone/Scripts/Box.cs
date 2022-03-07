@@ -18,13 +18,13 @@ public class Box : MonoBehaviour {
     }
 
     private void TakeDamage(Character whoDamaged) {
-        m_Condition -= whoDamaged.CurrentGun.damageAmount;
+        m_Condition -= whoDamaged.Attack.CurrentGun.damageAmount;
         if (m_Condition <= 0) Break(whoDamaged);
     }
 
     private void Break(Character whoBroke) {
         whoBroke.IncreaseScore(m_ScoreOnBreak);
-        whoBroke.IncreaseAmmo(m_AmmoOnBreak);
+        whoBroke.Attack.IncreaseAmmo(m_AmmoOnBreak);
         Destroy(this.gameObject);
     }
 }
