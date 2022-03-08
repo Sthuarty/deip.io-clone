@@ -4,44 +4,62 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SceneManagerGame : MonoBehaviour {
-    [SerializeField] private GameObject _uiPanelGun;
-    [SerializeField] private GameObject _uiButtonGunPrefab;
-    [SerializeField] private GameObject _characterPrefab;
-    [Header("Player Start Position")]
+    [SerializeField] private GameObject _playerCharacterPrefab;
+    [SerializeField] private GameObject _npcEnemyPrefab;
+    [SerializeField] private int _npcEnemyCount = 10;
+
+    [Header("Instantiate Positions Limits")]
     [SerializeField] private float _minX;
     [SerializeField] private float _maxX;
     [SerializeField] private float _minY;
     [SerializeField] private float _maxY;
+    Vector2 RandomPosition => new Vector2(Random.Range(_minX, _maxX), Random.Range(_minY, _maxY));
+
+
+    [Header("UI Settings")]
+    [SerializeField] private GameObject _uiPanelGun;
+    [SerializeField] private GameObject _uiButtonGunPrefab;
 
     private CharacterPlayer _playerCharacter;
-
-    private PhotonManager photonManager;
+    private PhotonManager _photonManager;
 
 
     private void Awake() {
-        photonManager = FindObjectOfType<PhotonManager>();
-        if (photonManager == null) {
+        _photonManager = FindObjectOfType<PhotonManager>();
+        if (_photonManager == null) {
             Debug.LogError("SceneManagerGame.cs  |  Awake()  ->  The variable photonManager is NULL!");
             return;
         }
     }
 
-    private void OnEnable() => photonManager.OnQuitEvent += HasPhotonQuited;
-    private void OnDisable() => photonManager.OnQuitEvent -= HasPhotonQuited;
+    private void OnEnable() => _photonManager.OnQuitEvent += HasPhotonQuited;
+    private void OnDisable() => _photonManager.OnQuitEvent -= HasPhotonQuited;
 
     private void Start() {
+        if (PhotonNetwork.IsConnected) {
+            if (PhotonNetwork.IsMasterClient) {
+                InstantiateNPCEnemies();
+                InstantiateBoxes();
+            }
+        } else {
+            InstantiateNPCEnemies();
+            InstantiateBoxes();
+        }
+
         InstantiateCharacter();
         ConfigureUI();
     }
 
     private void InstantiateCharacter() {
-        Vector2 randomPosition = new Vector2(Random.Range(_minX, _maxX), Random.Range(_minY, _maxY));
-
-        GameObject character = PhotonNetwork.IsConnected
-            ? PhotonNetwork.Instantiate(_characterPrefab.name, randomPosition, Quaternion.identity)
-            : Instantiate(_characterPrefab, (Vector3)randomPosition, Quaternion.identity);
-
+        GameObject character = InstantiateHandler(_playerCharacterPrefab, RandomPosition);
         _playerCharacter = character.GetComponent<CharacterPlayer>();
+        Camera.main.GetComponent<CameraFollow>().target = character.transform;
+    }
+
+    private GameObject InstantiateHandler(GameObject prefab, Vector2 position) {
+        return PhotonNetwork.IsConnected
+                    ? PhotonNetwork.Instantiate(prefab.name, position, Quaternion.identity)
+                    : Instantiate(prefab, (Vector3)position, Quaternion.identity);
     }
 
     private void ConfigureUI() {
@@ -55,9 +73,15 @@ public class SceneManagerGame : MonoBehaviour {
         }
     }
 
+    private void InstantiateNPCEnemies() {
+        Debug.Log("InstantiateNPCEnemies");
+    }
+
+    private void InstantiateBoxes() { }
+
 
     public void Quit() {  //  Chamada nos botões da UI
-        photonManager.Quit();
+        _photonManager.Quit();
     }
 
     private void HasPhotonQuited() {
