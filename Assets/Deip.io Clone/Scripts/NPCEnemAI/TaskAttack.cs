@@ -6,8 +6,6 @@ public class TaskAttack : Node {
     private Transform _lastTarget;
     private Character _enemyCharacter;
     private NPCEnemy _thisNPCCharacter;
-    private float _attackTime = 1f;
-    private float _attackCounter = 0f;
 
 
     public TaskAttack(Transform transform) => _transform = transform;

@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class Box : MonoBehaviour {
-    [SerializeField] private int m_MaxCondition = 40;
-    [SerializeField] private int m_AmmoOnBreak = 10;
-    [SerializeField] private int m_ScoreOnBreak = 10;
+public class Box : MonoBehaviour, IDamageable {
+    [SerializeField] private int _maxCondition = 40;
+    [SerializeField] private int _ammoOnBreak = 10;
+    [SerializeField] private int _scoreOnBreak = 10;
 
-    [SerializeField] private int m_Condition;
+    [SerializeField] private int _condition;
 
 
     private void Awake() {
-        m_Condition = m_MaxCondition;
+        _condition = _maxCondition;
     }
 
     private void OnParticleCollision(GameObject other) {
@@ -17,14 +17,15 @@ public class Box : MonoBehaviour {
             TakeDamage(other.GetComponentInParent<Character>());
     }
 
-    private void TakeDamage(Character whoDamaged) {
-        m_Condition -= whoDamaged.Attack.CurrentGun.damageAmount;
-        if (m_Condition <= 0) Break(whoDamaged);
+    public void TakeDamage(Character whoDamaged) {
+        _condition -= whoDamaged.CurrentGun.damageAmount;
+        if (_condition <= 0) Break(whoDamaged);
     }
 
     private void Break(Character whoBroke) {
-        whoBroke.IncreaseScore(m_ScoreOnBreak);
-        whoBroke.Attack.IncreaseAmmo(m_AmmoOnBreak);
+
+        whoBroke.IncreaseScore(_scoreOnBreak);
+        whoBroke.IncreaseAmmo(_ammoOnBreak);
         Destroy(this.gameObject);
     }
 }

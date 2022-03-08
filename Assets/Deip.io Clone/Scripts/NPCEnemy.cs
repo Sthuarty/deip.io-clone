@@ -1,8 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class NPCEnemy : MonoBehaviour {
-    public GunScriptableObject CurrentGun => _gun;
+public class NPCEnemy : Character {
     [SerializeField] private GunScriptableObject _gun;
     [SerializeField] private int _life = 100;
     [SerializeField] private int _scoreOnBreak = 10;
@@ -12,7 +11,9 @@ public class NPCEnemy : MonoBehaviour {
     private Gun m_Gun;
 
 
-    private void Awake() {
+    public override void Awake() {
+        base.Awake();
+        CurrentGun = _gun;
         _photonView = GetComponent<PhotonView>();
         m_Gun = GetComponentInChildren<Gun>();
     }
@@ -33,8 +34,8 @@ public class NPCEnemy : MonoBehaviour {
 
     public bool IsInCullDownTime => Time.time < _nextAttackTime;
 
-    public void TakeDamage(Character whoDamaged) {
-        _life -= whoDamaged.Attack.CurrentGun.damageAmount;
+    public override void TakeDamage(Character whoDamaged) {
+        _life -= whoDamaged.CurrentGun.damageAmount;
         if (_life <= 0) Break(whoDamaged);
     }
 
@@ -42,10 +43,4 @@ public class NPCEnemy : MonoBehaviour {
         whoBroke.IncreaseScore(_scoreOnBreak);
         Destroy(this.gameObject);
     }
-    /* public bool TakeDamage(int value) {
-        _life -= value;
-        bool hasDied = _life <= 0;
-        if (hasDied) Die();
-        return hasDied;
-    } */
 }

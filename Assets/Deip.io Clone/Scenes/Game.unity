@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -539,6 +540,21 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529753e8791dda54db61bf9749d7fafc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  _smoothSpeed: 3
+  _offset: {x: 0, y: 0, z: -10}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -931,13 +947,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c74d74a84ba794a957340a0649be28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UIPanelGun: {fileID: 1150695590}
-  m_UIButtonGun: {fileID: 8540839363091500865, guid: 33e30013619041242a43f7a3f98a991d, type: 3}
-  m_CharacterPrefab: {fileID: 6863900301007369459, guid: cc31a34cf5cc382429b5aea4c94bc2db, type: 3}
-  m_MinX: -9.5
-  m_MaxX: 9.5
-  m_MinY: -4.3
-  m_MaxY: 4.3
+  _uiPanelGun: {fileID: 1150695590}
+  _uiButtonGunPrefab: {fileID: 8540839363091500865, guid: 33e30013619041242a43f7a3f98a991d, type: 3}
+  _characterPrefab: {fileID: 6863900301007369459, guid: cc31a34cf5cc382429b5aea4c94bc2db, type: 3}
+  _minX: -4
+  _maxX: 4
+  _minY: 9
+  _maxY: -9
 --- !u!1 &1020890677
 GameObject:
   m_ObjectHideFlags: 0

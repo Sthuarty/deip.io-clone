@@ -5,14 +5,13 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Character))]
 public class CharacterAttack : MonoBehaviourPun, IPunObservable {
-    public GunScriptableObject CurrentGun => guns[m_CurrentGunIndex];
     public List<GunScriptableObject> guns = new List<GunScriptableObject>();
+    private int _currentGunIndex = 0;
 
     private Dictionary<int, int> ammo = new Dictionary<int, int>();    //  key: gunIndex  |  value: ammo quantity
-    private Character m_Character;
-    private Gun m_Gun;
-    private int m_CurrentGunIndex = 0;
-    private float m_AttackCullDown, m_NextAttackTime;
+    private Character _character;
+    private Gun _gun;
+    private float _attackCullDown, _nextAttackTime;
 
 #if UNITY_EDITOR
     [SerializeField] private bool m_Debug;
@@ -20,7 +19,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
 
 
     private void Awake() {
-        m_Character = GetComponent<Character>();
+        _character = GetComponent<Character>();
         SetInitialLoadout();
     }
 
@@ -29,26 +28,27 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
         ammo.Add(1, 20);
         ammo.Add(2, 10);
 
-        ChangeGun(guns[m_CurrentGunIndex]);
+        ChangeGun(guns[_currentGunIndex]);
     }
 
     #region CHANGE GUN
     public void ChangeGunHandler(GunScriptableObject gun) {
-        if (PhotonNetwork.IsConnected) m_Character.PhotonView.RPC("RPC_ChangeGun", RpcTarget.All, (int)guns.IndexOf(gun));
+        if (PhotonNetwork.IsConnected) _character.PhotonView.RPC("RPC_ChangeGun", RpcTarget.All, (int)guns.IndexOf(gun));
         else ChangeGun(gun);
     }
 
     [PunRPC] public void RPC_ChangeGun(int gunIndex) => ChangeGun(guns[gunIndex]);
 
     private void ChangeGun(GunScriptableObject gun) {
-        m_CurrentGunIndex = guns.IndexOf(gun);
+        _character.CurrentGun = gun;
+        _currentGunIndex = guns.IndexOf(gun);
 
         foreach (Transform child in transform)
             Destroy(child.gameObject);
 
         GameObject gunGO = Instantiate(gun.prefab, transform);
-        m_AttackCullDown = gun.attackCullDown;
-        m_Gun = gunGO.GetComponent<Gun>();
+        _attackCullDown = gun.attackCullDown;
+        _gun = gunGO.GetComponent<Gun>();
     }
     #endregion
 
@@ -57,34 +57,34 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
 
     private void ShootHandler() {
         if (CanShoot) {
-            if (PhotonNetwork.IsConnected) m_Character.PhotonView.RPC("RPC_GunFire", RpcTarget.All);
-            else m_Gun.Fire();
+            if (PhotonNetwork.IsConnected) _character.PhotonView.RPC("RPC_GunFire", RpcTarget.All);
+            else _gun.Fire();
 
-            ammo[m_CurrentGunIndex]--;
-            m_NextAttackTime = Time.time + m_AttackCullDown;
+            ammo[_currentGunIndex]--;
+            _nextAttackTime = Time.time + _attackCullDown;
         }
     }
 
-    [PunRPC] public void RPC_GunFire() => m_Gun.Fire();
+    [PunRPC] public void RPC_GunFire() => _gun.Fire();
     #endregion
 
-    public void IncreaseAmmo(int value) => ammo[m_CurrentGunIndex] += value;
+    public void IncreaseAmmo(int value) => ammo[_currentGunIndex] += value;
 
-    private bool CanShoot => !m_Character.isDead && HasAmmo && !IsInCullDownTime;
+    private bool CanShoot => !_character.IsDead && HasAmmo && !IsInCullDownTime;
 
-    private bool HasAmmo => ammo[m_CurrentGunIndex] > 0;
+    private bool HasAmmo => ammo[_currentGunIndex] > 0;
 
-    public bool IsInCullDownTime => Time.time < m_NextAttackTime;
+    public bool IsInCullDownTime => Time.time < _nextAttackTime;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
-            stream.SendNext(m_CurrentGunIndex);
+            stream.SendNext(_currentGunIndex);
 #if UNITY_EDITOR
-            if (m_Debug) Debug.Log($"Deip.io  |  CharacterAttack.cs  |  OnPhotonSerializeView()  |  WRINTING  |  m_CurrentGunIndex -> {m_CurrentGunIndex}");
+            if (m_Debug) Debug.Log($"Deip.io  |  CharacterAttack.cs  |  OnPhotonSerializeView()  |  WRINTING  |  m_CurrentGunIndex -> {_currentGunIndex}");
 #endif
         } else {
             int value = (int)stream.ReceiveNext();
-            if (value != m_CurrentGunIndex)
+            if (value != _currentGunIndex)
                 ChangeGunHandler(guns[value]);
 
 #if UNITY_EDITOR

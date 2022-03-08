@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6863900301007369460}
   - component: {fileID: 5459726473879609706}
   - component: {fileID: 752678807173203779}
-  - component: {fileID: -3154178935057147421}
+  - component: {fileID: 2041851526158936285}
   - component: {fileID: 6863900301007369463}
   - component: {fileID: 4449516608578907211}
   - component: {fileID: 394960790387092736}
@@ -231,7 +231,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 752678807173203779}
-  - {fileID: -3154178935057147421}
+  - {fileID: 2041851526158936285}
   - {fileID: 394960790387092736}
   sceneViewId: 0
   InstantiationId: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &-3154178935057147421
+--- !u!114 &2041851526158936285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,12 +261,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6863900301007369459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66156ad05b45b7a4098719eb7e98c922, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c6c49d455cb7b34fa63d2c353a2b08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
-  m_Life: 100
-  m_Score: 0
+  _score: 0
+  _health: 100
+  CurrentGun: {fileID: 0}
 --- !u!114 &6863900301007369463
 MonoBehaviour:
   m_ObjectHideFlags: 0
