@@ -56,7 +56,11 @@ public class Character : MonoBehaviourPun, IPunObservable {
 
     private void OnParticleCollision(GameObject other) {
         if (string.Equals(other.tag, "Bullet")) {
-            TakeDamage(other.GetComponentInParent<Character>().Attack.CurrentGun.damageAmount);
+            Character character = other.GetComponentInParent<Character>();
+            if (character) TakeDamage(character.Attack.CurrentGun.damageAmount);
+
+            NPCEnemy enemy = other.GetComponentInParent<NPCEnemy>();
+            if (enemy) TakeDamage(enemy.CurrentGun.damageAmount);
         }
     }
 

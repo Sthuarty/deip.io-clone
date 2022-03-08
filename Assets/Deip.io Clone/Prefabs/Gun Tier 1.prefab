@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1400239300502274482}
   - component: {fileID: 68834622391563968}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 170487258686747107}
   - component: {fileID: -3298773430487369488}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Gun Tier 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,12 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc311c743988f6d43884df76daac894f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletsPaticleSystem: {fileID: 935399567038453449}
-  ammoCount: 10
-  currentGunIndex: 0
-  m_SceneManagerGame: {fileID: 0}
-  m_ParticleSystem: {fileID: 0}
-  m_AttackCullDown: 0.5
 --- !u!1 &8812438093917532861
 GameObject:
   m_ObjectHideFlags: 0
