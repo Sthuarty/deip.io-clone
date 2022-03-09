@@ -13,6 +13,7 @@ public class TaskPatrol : Node {
     public TaskPatrol(Transform transform, Transform[] waypoints) {
         _transform = transform;
         _waypoints = waypoints;
+        _currentWaypointIndex = Random.Range(0, _waypoints.Length);
     }
 
     public override NodeState Evaluate() {
@@ -28,7 +29,8 @@ public class TaskPatrol : Node {
                     _waitCounter = 0f;
                     _isWaiting = true;
 
-                    _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
+                    _currentWaypointIndex = Random.Range(0, _waypoints.Length);
+                    // _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
                 } else {
                     _transform.position = Vector2.MoveTowards(_transform.position, waypoint.position, NPCEnemyBT.speed * Time.deltaTime);
                     _transform.LookAt2D(waypoint.position);

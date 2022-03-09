@@ -22,6 +22,7 @@ public class CheckEnemyInFOVRange : Node {
 
             if (colliders.Count > 0) {
                 parent.parent.SetData("target", colliders[0].transform);
+                NPCEnemyBT.isChasing = true;
 
                 state = NodeState.Success;
                 return state;
@@ -30,6 +31,9 @@ public class CheckEnemyInFOVRange : Node {
             state = NodeState.Failure;
             return state;
         }
+
+        if (!NPCEnemyBT.isChasing)
+            ClearData("target");
 
         state = NodeState.Success;
         return state;

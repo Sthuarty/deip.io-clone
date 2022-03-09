@@ -16,9 +16,6 @@ public class TaskChase : Node {
                 _transform.position = Vector2.MoveTowards(_transform.position, target.position, NPCEnemyBT.speed * Time.deltaTime);
                 _transform.LookAt2D(target.position);
             }
-
-            if (distanceToEnemy > NPCEnemyBT.distanceToStopChasing)
-                ClearData("target");
         }
 
         state = NodeState.Running;

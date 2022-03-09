@@ -20,6 +20,9 @@ public class SceneManagerGame : MonoBehaviour {
     [SerializeField] private GameObject _uiPanelGun;
     [SerializeField] private GameObject _uiButtonGunPrefab;
 
+    [Space(10)]
+    [SerializeField] private Transform[] _waypoints;
+
     private CharacterPlayer _playerCharacter;
     private PhotonManager _photonManager;
 
@@ -73,8 +76,12 @@ public class SceneManagerGame : MonoBehaviour {
         }
     }
 
+    GameObject _lastNPCEnemyInstantiated;
     private void InstantiateNPCEnemies() {
-        Debug.Log("InstantiateNPCEnemies");
+        for (int i = 0; i < _npcEnemyCount; i++) {
+            _lastNPCEnemyInstantiated = InstantiateHandler(_npcEnemyPrefab, RandomPosition);
+            _lastNPCEnemyInstantiated.GetComponent<NPCEnemyBT>().waypoints = _waypoints;
+        }
     }
 
     private void InstantiateBoxes() { }

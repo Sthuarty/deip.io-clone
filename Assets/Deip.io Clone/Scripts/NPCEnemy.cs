@@ -4,7 +4,6 @@ using UnityEngine;
 public class NPCEnemy : Character {
     [SerializeField] private GunScriptableObject _gun;
     [SerializeField] private int _life = 100;
-    [SerializeField] private int _scoreOnBreak = 10;
     [SerializeField] private float _attackCullDown = 0.5f;
     private float _nextAttackTime;
     private PhotonView _photonView;
@@ -36,11 +35,11 @@ public class NPCEnemy : Character {
 
     public override void TakeDamage(Character whoDamaged) {
         _life -= whoDamaged.CurrentGun.damageAmount;
-        if (_life <= 0) Break(whoDamaged);
+        if (_life <= 0) Die(whoDamaged);
     }
 
-    private void Break(Character whoBroke) {
-        whoBroke.IncreaseScore(_scoreOnBreak);
+    private void Die(Character whoKilled) {
+        whoKilled.IncreaseScore(_scoreOnBreak);
         Destroy(this.gameObject);
     }
 }

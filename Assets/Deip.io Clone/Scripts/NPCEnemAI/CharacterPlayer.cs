@@ -30,4 +30,14 @@ public class CharacterPlayer : Character {
     }
 
     public override void IncreaseAmmo(int value) => _attack.IncreaseAmmo(value);
+
+    public override void TakeDamage(Character whoDamaged) {
+        base.TakeDamage(whoDamaged);
+        if (_health <= 0) Die(whoDamaged);
+    }
+
+    public void Die(Character whoKilled) {
+        whoKilled.IncreaseScore(_scoreOnBreak);
+        Destroy(this.gameObject);
+    }
 }

@@ -6,8 +6,9 @@ using Photon.Pun;
 public class Character : MonoBehaviourPun, IPunObservable, IDamageable {
     [HideInInspector] public bool IsDead => _health <= 0;
 
-    [SerializeField] private float _health = 100.0f;
-    [SerializeField] private int _score = 0;
+    [SerializeField] protected float _health = 100.0f;
+    [SerializeField] protected int _score = 0;
+    [SerializeField] protected int _scoreOnBreak = 10;
 
     public GunScriptableObject CurrentGun;
 
