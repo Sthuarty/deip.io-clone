@@ -267,7 +267,7 @@ MonoBehaviour:
   _health: 1000
   _score: 0
   _scoreGivenOnDeath: 20
-  CurrentGun: {fileID: 0}
+  CurrentGun: {fileID: 11400000, guid: a2b9b5100b54d174e961394892b33e08, type: 2}
 --- !u!114 &6863900301007369463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,10 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df28bca7aa2a8a245821b2abe6959b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guns:
-  - {fileID: 11400000, guid: a2b9b5100b54d174e961394892b33e08, type: 2}
-  - {fileID: 11400000, guid: 53f232fffd4a80747b026832a5641a67, type: 2}
-  - {fileID: 11400000, guid: 7d64bd504ad554649815c3dc58588fea, type: 2}
+  _guns: []
   m_Debug: 0
 --- !u!1001 &6043477283308684446
 PrefabInstance:

@@ -16,3 +16,4 @@ MonoBehaviour:
   prefab: {fileID: 7085342400394401963, guid: 963ba8e0ab6b2c24195fd89333f1d87f, type: 3}
   damageAmount: 20
   attackCullDown: 0.5
+  chanceToDropOnBoxLoot: 60

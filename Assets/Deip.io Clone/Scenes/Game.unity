@@ -2550,6 +2550,10 @@ MonoBehaviour:
   - {fileID: 953160403}
   - {fileID: 1843919480}
   - {fileID: 1118166647}
+  allGunsList:
+  - {fileID: 11400000, guid: a2b9b5100b54d174e961394892b33e08, type: 2}
+  - {fileID: 11400000, guid: 53f232fffd4a80747b026832a5641a67, type: 2}
+  - {fileID: 11400000, guid: 7d64bd504ad554649815c3dc58588fea, type: 2}
 --- !u!1 &953160402
 GameObject:
   m_ObjectHideFlags: 0

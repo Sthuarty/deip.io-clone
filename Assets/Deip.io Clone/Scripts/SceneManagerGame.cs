@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SceneManagerGame : MonoBehaviour {
+public class SceneManagerGame : Singleton<SceneManagerGame> {
     [SerializeField] private GameObject _playerCharacterPrefab;
     [SerializeField] private GameObject _npcEnemyPrefab;
     [SerializeField] private int _npcEnemyCount = 10;
@@ -32,13 +32,19 @@ public class SceneManagerGame : MonoBehaviour {
     [Space(10)]
     [SerializeField] private Transform[] _waypoints;
 
+
+    [Space(10)]
+    public List<GunScriptableObject> allGunsList = new List<GunScriptableObject>();
+
+
     private CharacterPlayer _playerCharacter;
     private PhotonManager _photonManager;
 
-    private List<NPCEnemyBT> _enemies = new List<NPCEnemyBT>();
 
 
-    private void Awake() {
+    public override void Awake() {
+        base.Awake();
+
         _photonManager = FindObjectOfType<PhotonManager>();
         if (_photonManager == null) {
             Debug.LogError("SceneManagerGame.cs  |  Awake()  ->  The variable photonManager is NULL!");
@@ -56,7 +62,7 @@ public class SceneManagerGame : MonoBehaviour {
         }
 
         InstantiateCharacter();
-        ConfigureUI();
+        UpdateGunsUI();
     }
 
     private GameObject InstantiateHandler(GameObject prefab, Vector2 position, bool roomObject = false) {
@@ -74,6 +80,7 @@ public class SceneManagerGame : MonoBehaviour {
 
         _playerCharacter.HealthChangedEvent += UpdateHealthUI;
         _playerCharacter.Attack.AmmoChangedEvent += UpdateAmmoUI;
+        _playerCharacter.Attack.NewGunObtainedEvent += UpdateGunsUI;
         _playerCharacter.ScoreChangedEvent += UpdateScoreUI;
         _playerCharacter.CharacterDiedEvent += GameOver;
     }
@@ -88,20 +95,20 @@ public class SceneManagerGame : MonoBehaviour {
             InstantiateHandler(_boxPrefab, RandomPosition, roomObject: true);
     }
 
-    private void ConfigureUI() {
-        foreach (Transform child in _uiPanelGun.transform)
-            Destroy(child);
+    private void UpdateHealthUI(int value) => _uiTextHealth.text = value.ToString();
+    private void UpdateScoreUI(int value) => _uiTextScore.text = value.ToString();
+    private void UpdateAmmoUI(int value) => _uiTextAmmo.text = value.ToString();
 
-        foreach (GunScriptableObject gun in _playerCharacter.Attack.guns) {
+    private void UpdateGunsUI() {
+        foreach (Transform child in _uiPanelGun.transform)
+            Destroy(child.gameObject);
+
+        foreach (GunScriptableObject gun in _playerCharacter.Attack.Guns) {
             GameObject uiButtonGO = Instantiate(_uiButtonGunPrefab, _uiPanelGun.transform);
             uiButtonGO.GetComponentInChildren<Button>().onClick.AddListener(() => _playerCharacter.Attack.ChangeGunHandler(gun));
             uiButtonGO.GetComponentInChildren<TMP_Text>().text = gun.gunName;
         }
     }
-
-    private void UpdateScoreUI(int value) => _uiTextScore.text = value.ToString();
-    private void UpdateAmmoUI(int value) => _uiTextAmmo.text = value.ToString();
-    private void UpdateHealthUI(int value) => _uiTextHealth.text = value.ToString();
 
     private void GameOver() {
         _uiTextGameOverScore.text = _uiTextScore.text;
@@ -115,9 +122,13 @@ public class SceneManagerGame : MonoBehaviour {
 
     private void Quit() => SceneLoader.Instance.LoadSceneWithFadeEffect("SplashScreen", true);
 
-    private void OnDestroy() {
+    public override void OnDestroy() {
+        base.OnDestroy();
+
         _playerCharacter.HealthChangedEvent -= UpdateHealthUI;
         _playerCharacter.Attack.AmmoChangedEvent -= UpdateAmmoUI;
+        _playerCharacter.Attack.NewGunObtainedEvent -= UpdateGunsUI;
         _playerCharacter.ScoreChangedEvent -= UpdateScoreUI;
+        _playerCharacter.CharacterDiedEvent -= GameOver;
     }
 }

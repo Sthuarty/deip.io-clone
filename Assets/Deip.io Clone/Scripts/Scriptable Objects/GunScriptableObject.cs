@@ -6,4 +6,5 @@ public class GunScriptableObject : ScriptableObject {
     public GameObject prefab;
     public int damageAmount = 20;
     public float attackCullDown = 0.5f;
+    public float chanceToDropOnBoxLoot = 50.0f;
 }

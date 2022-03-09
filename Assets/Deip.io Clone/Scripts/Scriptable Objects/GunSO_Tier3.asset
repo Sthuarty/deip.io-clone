@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Arma 3
   prefab: {fileID: 7085342400394401963, guid: 3f168d9c8643d164cb811cc41bbc2936, type: 3}
-  damageAmount: 35
+  damageAmount: 65
   attackCullDown: 1
+  chanceToDropOnBoxLoot: 40
