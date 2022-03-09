@@ -266,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 1000
   _score: 0
-  _scoreOnBreak: 10
+  _scoreGivenOnDeath: 20
   CurrentGun: {fileID: 0}
 --- !u!114 &6863900301007369463
 MonoBehaviour:

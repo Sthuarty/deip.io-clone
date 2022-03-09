@@ -14,6 +14,7 @@ public class CharacterPlayer : Character {
 
     public event CommonTypes.EventWithIntParameter HealthChangedEvent;
     public event CommonTypes.EventWithIntParameter ScoreChangedEvent;
+    public event CommonTypes.Event CharacterDiedEvent;
 
 
     public override void Awake() {
@@ -42,6 +43,7 @@ public class CharacterPlayer : Character {
     public override void TakeDamage(Character whoDamaged) {
         base.TakeDamage(whoDamaged);
         HealthChangedEvent?.Invoke((int)_health);
+        if (_health <= 0) CharacterDiedEvent?.Invoke();
     }
 
     public override void IncreaseScore(int value) {

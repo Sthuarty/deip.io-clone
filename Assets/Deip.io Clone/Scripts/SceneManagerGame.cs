@@ -23,8 +23,10 @@ public class SceneManagerGame : MonoBehaviour {
     [SerializeField] private GameObject _uiPanelGun;
     [SerializeField] private GameObject _uiButtonGunPrefab;
     [SerializeField] private TMP_Text _uiTextHealth;
-    [SerializeField] private TMP_Text _uiTextScore;
     [SerializeField] private TMP_Text _uiTextAmmo;
+    [SerializeField] private TMP_Text _uiTextScore;
+    [SerializeField] private UIShowHide _uiPanelGameOver;
+    [SerializeField] private TMP_Text _uiTextGameOverScore;
 
 
     [Space(10)]
@@ -44,8 +46,8 @@ public class SceneManagerGame : MonoBehaviour {
         }
     }
 
-    private void OnEnable() => _photonManager.OnQuitEvent += HasPhotonQuited;
-    private void OnDisable() => _photonManager.OnQuitEvent -= HasPhotonQuited;
+    private void OnEnable() => _photonManager.OnQuitEvent += Quit;
+    private void OnDisable() => _photonManager.OnQuitEvent -= Quit;
 
     private void Start() {
         if (!PhotonNetwork.IsConnected || (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)) {
@@ -57,6 +59,14 @@ public class SceneManagerGame : MonoBehaviour {
         ConfigureUI();
     }
 
+    private GameObject InstantiateHandler(GameObject prefab, Vector2 position, bool roomObject = false) {
+        return PhotonNetwork.IsConnected
+                    ? roomObject
+                        ? PhotonNetwork.InstantiateRoomObject(prefab.name, position, Quaternion.identity)
+                        : PhotonNetwork.Instantiate(prefab.name, position, Quaternion.identity)
+                    : Instantiate(prefab, (Vector3)position, Quaternion.identity);
+    }
+
     private void InstantiateCharacter() {
         GameObject character = InstantiateHandler(_playerCharacterPrefab, RandomPosition);
         _playerCharacter = character.GetComponent<CharacterPlayer>();
@@ -65,14 +75,17 @@ public class SceneManagerGame : MonoBehaviour {
         _playerCharacter.HealthChangedEvent += UpdateHealthUI;
         _playerCharacter.Attack.AmmoChangedEvent += UpdateAmmoUI;
         _playerCharacter.ScoreChangedEvent += UpdateScoreUI;
+        _playerCharacter.CharacterDiedEvent += GameOver;
     }
 
-    private GameObject InstantiateHandler(GameObject prefab, Vector2 position, bool roomObject = false) {
-        return PhotonNetwork.IsConnected
-                    ? roomObject
-                        ? PhotonNetwork.InstantiateRoomObject(prefab.name, position, Quaternion.identity)
-                        : PhotonNetwork.Instantiate(prefab.name, position, Quaternion.identity)
-                    : Instantiate(prefab, (Vector3)position, Quaternion.identity);
+    private void InstantiateNPCEnemies() {
+        for (int i = 0; i < _npcEnemyCount; i++)
+            InstantiateHandler(_npcEnemyPrefab, RandomPosition, roomObject: true);
+    }
+
+    private void InstantiateBoxes() {
+        for (int i = 0; i < _boxCount; i++)
+            InstantiateHandler(_boxPrefab, RandomPosition, roomObject: true);
     }
 
     private void ConfigureUI() {
@@ -86,28 +99,21 @@ public class SceneManagerGame : MonoBehaviour {
         }
     }
 
-    private void InstantiateNPCEnemies() {
-        for (int i = 0; i < _npcEnemyCount; i++)
-            InstantiateHandler(_npcEnemyPrefab, RandomPosition, roomObject: true);
-    }
-
-    private void InstantiateBoxes() {
-        for (int i = 0; i < _boxCount; i++)
-            InstantiateHandler(_boxPrefab, RandomPosition, roomObject: true);
-    }
-
-
-    public void Quit() {  //  Chamada nos botões da UI
-        _photonManager.Quit();
-    }
-
-    private void HasPhotonQuited() {
-        SceneLoader.Instance.LoadSceneWithFadeEffect("SplashScreen", true);
-    }
-
     private void UpdateScoreUI(int value) => _uiTextScore.text = value.ToString();
     private void UpdateAmmoUI(int value) => _uiTextAmmo.text = value.ToString();
     private void UpdateHealthUI(int value) => _uiTextHealth.text = value.ToString();
+
+    private void GameOver() {
+        _uiTextGameOverScore.text = _uiTextScore.text;
+        _uiPanelGameOver.Show();
+    }
+
+    public void QuitHandler() {  //  Chamada nos botões da UI
+        if (PhotonNetwork.IsConnected) _photonManager.Quit();
+        else Quit();
+    }
+
+    private void Quit() => SceneLoader.Instance.LoadSceneWithFadeEffect("SplashScreen", true);
 
     private void OnDestroy() {
         _playerCharacter.HealthChangedEvent -= UpdateHealthUI;

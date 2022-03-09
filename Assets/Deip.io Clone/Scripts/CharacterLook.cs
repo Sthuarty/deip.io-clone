@@ -10,5 +10,8 @@ public class CharacterLook : MonoBehaviour {
 
     private void Update() => transform.LookAt2D(targetPosition);
 
-    public void LookInputEvent(InputAction.CallbackContext context) { targetPosition = m_Camera.ScreenToWorldPoint(context.ReadValue<Vector2>()); }
+    public void LookInputEvent(InputAction.CallbackContext context) {
+        if (m_Camera != null)
+            targetPosition = m_Camera.ScreenToWorldPoint(context.ReadValue<Vector2>());
+    }
 }
