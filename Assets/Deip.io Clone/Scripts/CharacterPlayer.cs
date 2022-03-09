@@ -12,6 +12,9 @@ public class CharacterPlayer : Character {
     private CharacterLook _look;
     private CharacterAttack _attack;
 
+    public event CommonTypes.EventWithIntParameter HealthChangedEvent;
+    public event CommonTypes.EventWithIntParameter ScoreChangedEvent;
+
 
     public override void Awake() {
         base.Awake();
@@ -29,11 +32,22 @@ public class CharacterPlayer : Character {
         }
     }
 
+    private void Start() {
+        HealthChangedEvent?.Invoke((int)_health);
+        ScoreChangedEvent?.Invoke(_score);
+    }
+
     public override void IncreaseAmmo(int value) => _attack.IncreaseAmmo(value);
 
     public override void TakeDamage(Character whoDamaged) {
         base.TakeDamage(whoDamaged);
         if (_health <= 0) Die(whoDamaged);
+        HealthChangedEvent?.Invoke((int)_health);
+    }
+
+    public override void IncreaseScore(int value) {
+        base.IncreaseScore(value);
+        ScoreChangedEvent?.Invoke(_score);
     }
 
     public void Die(Character whoKilled) {

@@ -22,6 +22,10 @@ public class SceneManagerGame : MonoBehaviour {
     [Header("UI Settings")]
     [SerializeField] private GameObject _uiPanelGun;
     [SerializeField] private GameObject _uiButtonGunPrefab;
+    [SerializeField] private TMP_Text _uiTextHealth;
+    [SerializeField] private TMP_Text _uiTextScore;
+    [SerializeField] private TMP_Text _uiTextAmmo;
+
 
     [Space(10)]
     [SerializeField] private Transform[] _waypoints;
@@ -57,6 +61,10 @@ public class SceneManagerGame : MonoBehaviour {
         GameObject character = InstantiateHandler(_playerCharacterPrefab, RandomPosition);
         _playerCharacter = character.GetComponent<CharacterPlayer>();
         Camera.main.GetComponent<CameraFollow>().target = character.transform;
+
+        _playerCharacter.HealthChangedEvent += UpdateHealthUI;
+        _playerCharacter.Attack.AmmoChangedEvent += UpdateAmmoUI;
+        _playerCharacter.ScoreChangedEvent += UpdateScoreUI;
     }
 
     private GameObject InstantiateHandler(GameObject prefab, Vector2 position, bool roomObject = false) {
@@ -95,5 +103,15 @@ public class SceneManagerGame : MonoBehaviour {
 
     private void HasPhotonQuited() {
         SceneLoader.Instance.LoadSceneWithFadeEffect("SplashScreen", true);
+    }
+
+    private void UpdateScoreUI(int value) => _uiTextScore.text = value.ToString();
+    private void UpdateAmmoUI(int value) => _uiTextAmmo.text = value.ToString();
+    private void UpdateHealthUI(int value) => _uiTextHealth.text = value.ToString();
+
+    private void OnDestroy() {
+        _playerCharacter.HealthChangedEvent -= UpdateHealthUI;
+        _playerCharacter.Attack.AmmoChangedEvent -= UpdateAmmoUI;
+        _playerCharacter.ScoreChangedEvent -= UpdateScoreUI;
     }
 }

@@ -9,9 +9,11 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
     private int _currentGunIndex = 0;
 
     private Dictionary<int, int> ammo = new Dictionary<int, int>();    //  key: gunIndex  |  value: ammo quantity
-    private Character _character;
+    private CharacterPlayer _character;
     private Gun _gun;
     private float _attackCullDown, _nextAttackTime;
+
+    public event CommonTypes.EventWithIntParameter AmmoChangedEvent;
 
 #if UNITY_EDITOR
     [SerializeField] private bool m_Debug;
@@ -19,7 +21,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
 
 
     private void Awake() {
-        _character = GetComponent<Character>();
+        _character = GetComponent<CharacterPlayer>();
         SetInitialLoadout();
     }
 
@@ -30,6 +32,8 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
 
         ChangeGun(guns[_currentGunIndex]);
     }
+
+    private void Start() => AmmoChangedEvent?.Invoke(ammo[_currentGunIndex]);
 
     #region CHANGE GUN
     public void ChangeGunHandler(GunScriptableObject gun) {
@@ -49,6 +53,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
         GameObject gunGO = Instantiate(gun.prefab, transform);
         _attackCullDown = gun.attackCullDown;
         _gun = gunGO.GetComponent<Gun>();
+        AmmoChangedEvent?.Invoke(ammo[_currentGunIndex]);
     }
     #endregion
 
@@ -61,6 +66,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
             else _gun.Fire();
 
             ammo[_currentGunIndex]--;
+            AmmoChangedEvent?.Invoke(ammo[_currentGunIndex]);
             _nextAttackTime = Time.time + _attackCullDown;
         }
     }
@@ -68,7 +74,10 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable {
     [PunRPC] public void RPC_GunFire() => _gun.Fire();
     #endregion
 
-    public void IncreaseAmmo(int value) => ammo[_currentGunIndex] += value;
+    public void IncreaseAmmo(int value) {
+        ammo[_currentGunIndex] += value;
+        AmmoChangedEvent?.Invoke(ammo[_currentGunIndex]);
+    }
 
     private bool CanShoot => !_character.IsDead && HasAmmo && !IsInCullDownTime;
 
