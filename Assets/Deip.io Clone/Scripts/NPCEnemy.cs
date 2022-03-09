@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
 public class NPCEnemy : Character {
-    [SerializeField] private GunScriptableObject _gun;
-    [SerializeField] private int _life = 100;
+    [SerializeField] private List<GunScriptableObject> _guns;
     [SerializeField] private float _attackCullDown = 0.5f;
     private float _nextAttackTime;
     private Gun m_Gun;
@@ -11,7 +11,7 @@ public class NPCEnemy : Character {
 
     public override void Awake() {
         base.Awake();
-        CurrentGun = _gun;
+        CurrentGun = _guns[Random.Range(0, _guns.Count)];
         m_Gun = GetComponentInChildren<Gun>();
     }
 
@@ -32,16 +32,4 @@ public class NPCEnemy : Character {
     #endregion
 
     public bool IsInCullDownTime => Time.time < _nextAttackTime;
-
-    public override void TakeDamage(Character whoDamaged) {
-        _life -= whoDamaged.CurrentGun.damageAmount;
-        if (_life <= 0) Die(whoDamaged);
-    }
-
-    private void Die(Character whoKilled) {
-        whoKilled.IncreaseScore(_scoreOnBreak);
-
-        if (PhotonNetwork.IsConnected && GetComponent<PhotonView>().IsMine) PhotonNetwork.Destroy(gameObject);
-        else if (!PhotonNetwork.IsConnected) Destroy(this.gameObject);
-    }
 }

@@ -8,7 +8,7 @@ public abstract class Character : MonoBehaviourPun, IPunObservable, IDamageable 
 
     [SerializeField] protected float _health = 100.0f;
     [SerializeField] protected int _score = 0;
-    [SerializeField] protected int _scoreOnBreak = 10;
+    [SerializeField] protected int _scoreGivenOnDeath = 20;
 
     public GunScriptableObject CurrentGun;
 
@@ -30,6 +30,15 @@ public abstract class Character : MonoBehaviourPun, IPunObservable, IDamageable 
 
     public virtual void TakeDamage(Character whoDamaged) {
         _health -= whoDamaged.CurrentGun.damageAmount;
+        if (_health <= 0) Die(whoDamaged);
+    }
+
+    public void Die(Character whoKilled) {
+        _health = 0;
+        whoKilled.IncreaseScore(_scoreGivenOnDeath);
+
+        if (PhotonNetwork.IsConnected && GetComponent<PhotonView>().IsMine) PhotonNetwork.Destroy(gameObject);
+        else if (!PhotonNetwork.IsConnected) Destroy(this.gameObject);
     }
 
     public virtual void IncreaseScore(int value) {

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 752678807173203779}
   - component: {fileID: 2877971545817176395}
   - component: {fileID: 6996522083748007089}
+  - component: {fileID: 5740517966021312357}
   m_Layer: 6
   m_Name: NPC-Enemy
   m_TagString: Untagged
@@ -180,10 +181,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 100
   _score: 0
-  _scoreOnBreak: 10
+  _scoreGivenOnDeath: 20
   CurrentGun: {fileID: 0}
-  _gun: {fileID: 11400000, guid: a2b9b5100b54d174e961394892b33e08, type: 2}
-  _life: 100
+  _guns:
+  - {fileID: 11400000, guid: a2b9b5100b54d174e961394892b33e08, type: 2}
+  - {fileID: 11400000, guid: 53f232fffd4a80747b026832a5641a67, type: 2}
+  - {fileID: 11400000, guid: 7d64bd504ad554649815c3dc58588fea, type: 2}
   _attackCullDown: 0.5
 --- !u!114 &6996522083748007089
 MonoBehaviour:
@@ -197,6 +200,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eadabce5e5b80a44e8afd0cfc1d75d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5740517966021312357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6863900301007369459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d3591ec21d6dc3438ca1874f8c97e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFacingRight: 1
+  m_MoveSpeed: 5
 --- !u!1001 &6043477283308684446
 PrefabInstance:
   m_ObjectHideFlags: 0

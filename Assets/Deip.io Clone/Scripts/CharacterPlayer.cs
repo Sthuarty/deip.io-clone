@@ -41,19 +41,11 @@ public class CharacterPlayer : Character {
 
     public override void TakeDamage(Character whoDamaged) {
         base.TakeDamage(whoDamaged);
-        if (_health <= 0) Die(whoDamaged);
         HealthChangedEvent?.Invoke((int)_health);
     }
 
     public override void IncreaseScore(int value) {
         base.IncreaseScore(value);
         ScoreChangedEvent?.Invoke(_score);
-    }
-
-    public void Die(Character whoKilled) {
-        whoKilled.IncreaseScore(_scoreOnBreak);
-
-        if (PhotonNetwork.IsConnected && GetComponent<PhotonView>().IsMine) PhotonNetwork.Destroy(gameObject);
-        else if (!PhotonNetwork.IsConnected) Destroy(this.gameObject);
     }
 }
