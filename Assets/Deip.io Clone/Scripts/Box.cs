@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class Box : MonoBehaviour, IDamageable {
@@ -10,6 +11,8 @@ public class Box : MonoBehaviour, IDamageable {
 
     private void Awake() {
         _condition = _maxCondition;
+        if (PhotonNetwork.IsConnected)
+            DontDestroyOnLoad(this.gameObject);
     }
 
     private void OnParticleCollision(GameObject other) {
@@ -23,9 +26,10 @@ public class Box : MonoBehaviour, IDamageable {
     }
 
     private void Break(Character whoBroke) {
-
         whoBroke.IncreaseScore(_scoreOnBreak);
         whoBroke.IncreaseAmmo(_ammoOnBreak);
-        Destroy(this.gameObject);
+
+        if (PhotonNetwork.IsConnected && GetComponent<PhotonView>().IsMine) PhotonNetwork.Destroy(gameObject);
+        else if (!PhotonNetwork.IsConnected) Destroy(this.gameObject);
     }
 }

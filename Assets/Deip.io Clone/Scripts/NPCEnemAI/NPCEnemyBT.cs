@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using BehaviorTree;
 public class NPCEnemyBT : Tree {
-    public UnityEngine.Transform[] waypoints;
     public static float speed = 2f;
     public static float distanceToStartChasing = 5.0f;
     public static float distanceToStopChasing = 200.0f;
@@ -22,7 +21,7 @@ public class NPCEnemyBT : Tree {
                 new TaskChase(transform),
             }),
 
-            new TaskPatrol(transform, waypoints),
+            new TaskPatrol(transform),
         });
 
         return root;

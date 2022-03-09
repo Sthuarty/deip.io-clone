@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8317567865588865897}
   - component: {fileID: 5337596738032842608}
   - component: {fileID: 9139712969933249678}
+  - component: {fileID: -1904419321643284750}
   m_Layer: 7
   m_Name: Box
   m_TagString: Untagged
@@ -121,7 +122,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.754717, g: 0.37988007, b: 0.29547882, a: 1}
   m_FlipX: 0
@@ -145,10 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff103555f5885c04385b0c6bc7c9478b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxCondition: 40
-  m_AmmoOnBreak: 10
-  m_ScoreOnBreak: 10
-  m_Condition: 0
+  _maxCondition: 40
+  _ammoOnBreak: 10
+  _scoreOnBreak: 10
+  _condition: 0
 --- !u!114 &9139712969933249678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +168,24 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -1904419321643284750}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-1904419321643284750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8317567865588865896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0
+  m_UseLocal: 1

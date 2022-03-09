@@ -38,6 +38,8 @@ public class CharacterPlayer : Character {
 
     public void Die(Character whoKilled) {
         whoKilled.IncreaseScore(_scoreOnBreak);
-        Destroy(this.gameObject);
+
+        if (PhotonNetwork.IsConnected && GetComponent<PhotonView>().IsMine) PhotonNetwork.Destroy(gameObject);
+        else if (!PhotonNetwork.IsConnected) Destroy(this.gameObject);
     }
 }

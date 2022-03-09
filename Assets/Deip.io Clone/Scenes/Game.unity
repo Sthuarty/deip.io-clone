@@ -1705,7 +1705,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerCharacterPrefab: {fileID: 6863900301007369459, guid: cc31a34cf5cc382429b5aea4c94bc2db, type: 3}
   _npcEnemyPrefab: {fileID: 6863900301007369459, guid: 4a6d26da9469bbd4eb5fd8b6aafb7b52, type: 3}
-  _npcEnemyCount: 2
+  _npcEnemyCount: 1
+  _boxPrefab: {fileID: 8317567865588865896, guid: 8e43a53ce4b1e494ea3dcea2359bf6c3, type: 3}
+  _boxCount: 10
   _minX: -14
   _maxX: 14
   _minY: -7
@@ -1960,8 +1962,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1101830320}
+  - component: {fileID: 1101830321}
   m_Layer: 0
-  m_Name: NPC-Enemy Waypoints
+  m_Name: Waypoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2026,6 +2029,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1101830321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101830319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50cbcd428ad40f49b341ca9d79eb187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list: []
 --- !u!1 &1118166646
 GameObject:
   m_ObjectHideFlags: 0

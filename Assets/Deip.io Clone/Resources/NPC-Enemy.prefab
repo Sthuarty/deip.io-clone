@@ -146,6 +146,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 752678807173203779}
+  - {fileID: 2877971545817176395}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -177,10 +178,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9e1ebc1da883c44954efc4ee67bb2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: 100
+  _score: 0
+  _scoreOnBreak: 10
+  CurrentGun: {fileID: 0}
   _gun: {fileID: 11400000, guid: a2b9b5100b54d174e961394892b33e08, type: 2}
   _life: 100
-  m_ScoreOnBreak: 10
-  m_AttackCullDown: 0.5
+  _attackCullDown: 0.5
 --- !u!114 &6996522083748007089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eadabce5e5b80a44e8afd0cfc1d75d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: []
 --- !u!1001 &6043477283308684446
 PrefabInstance:
   m_ObjectHideFlags: 0

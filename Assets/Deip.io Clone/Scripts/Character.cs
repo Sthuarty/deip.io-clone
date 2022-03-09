@@ -3,7 +3,7 @@ using Photon.Pun;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(CharacterMovement))]
-public class Character : MonoBehaviourPun, IPunObservable, IDamageable {
+public abstract class Character : MonoBehaviourPun, IPunObservable, IDamageable {
     [HideInInspector] public bool IsDead => _health <= 0;
 
     [SerializeField] protected float _health = 100.0f;
