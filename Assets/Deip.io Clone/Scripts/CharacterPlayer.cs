@@ -48,4 +48,9 @@ public class CharacterPlayer : Character {
         base.IncreaseScore(value);
         ScoreChangedEvent?.Invoke(_score);
     }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Box"))
+            other.gameObject.GetComponent<Box>().TakeDamage(whoDamaged: this);
+    }
 }
